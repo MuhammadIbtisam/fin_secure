@@ -1,0 +1,12 @@
+[
+  {
+    "regulation": "KYC-2024",
+    "status": "compliant",
+    "last_checked": "2025-04-01"
+  },
+  {
+    "regulation": "AML-2025",
+    "status": "non-compliant",
+    "last_checked": "2025-04-12"
+  }
+]

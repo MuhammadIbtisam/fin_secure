@@ -1,0 +1,14 @@
+[
+  {
+    "loan_id": "L001",
+    "customer_id": "C001",
+    "amount": 5000,
+    "status": "approved"
+  },
+  {
+    "loan_id": "L002",
+    "customer_id": "C002",
+    "amount": 7000,
+    "status": "pending"
+  }
+]
