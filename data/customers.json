@@ -1,0 +1,80 @@
+[
+  {
+    "customer_id": "C001",
+    "name": "Alice Smith",
+    "contact_info": {
+      "email": "alice@example.com",
+      "phone": "1234567890"
+    },
+    "account_ids": [
+      "A001",
+      "A002"
+    ],
+    "account_summary": {
+      "A001": {
+        "type": "savings",
+        "balance": 1585.31
+      },
+      "A002": {
+        "type": "loan",
+        "balance": 2892.72
+      }
+    },
+    "products": [
+      "Savings Account",
+      "Personal Loan"
+    ],
+    "interaction_log": [
+      {
+        "date": "2025-04-01",
+        "type": "call",
+        "notes": "Discussed savings options"
+      },
+      {
+        "date": "2025-04-05",
+        "type": "email",
+        "notes": "Sent loan options"
+      }
+    ],
+    "last_interaction_date": "2025-04-05",
+    "total_interactions": 2,
+    "advice_history": [
+      "Consider long-term fixed deposit",
+      "Eligible for personal loan"
+    ],
+    "personalized_advice": [
+      "Consider long-term fixed deposit",
+      "Review loan repayment options",
+      "Pre-approve personal loan"
+    ]
+  },
+  {
+    "customer_id": "C002",
+    "name": "Bob Johnson",
+    "contact_info": {
+      "email": "bob@example.com",
+      "phone": "9876543210"
+    },
+    "account_ids": [
+      "A003"
+    ],
+    "account_summary": {
+      "A003": {
+        "type": "checking",
+        "balance": 36.62
+      }
+    },
+    "products": [
+      "Checking Account"
+    ],
+    "interaction_log": [],
+    "last_interaction_date": null,
+    "total_interactions": 0,
+    "advice_history": [
+      "Monitor credit card usage"
+    ],
+    "personalized_advice": [
+      "Schedule follow-up call to re-engage customer"
+    ]
+  }
+]

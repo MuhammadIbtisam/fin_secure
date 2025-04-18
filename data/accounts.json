@@ -1,0 +1,20 @@
+[
+  {
+    "account_id": "A001",
+    "customer_id": "C001",
+    "type": "savings",
+    "balance": 5500.0
+  },
+  {
+    "account_id": "A002",
+    "customer_id": "C001",
+    "type": "loan",
+    "balance": -12000.0
+  },
+  {
+    "account_id": "A003",
+    "customer_id": "C002",
+    "type": "checking",
+    "balance": 300.0
+  }
+]

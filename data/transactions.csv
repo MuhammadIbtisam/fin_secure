@@ -1,0 +1,13 @@
+transaction_id,account_id,type,amount,timestamp,status
+T001,A001,deposit,1500.0,2025-04-10T09:30:00,success
+T002,A002,loan_payment,1000.0,2025-04-12T11:10:00,success
+T003,A001,withdrawal,6000.0,2025-04-13T08:00:00,flagged_fraud
+T004,A002,withdrawal,1126.82,2025-04-14T14:00,flagged_fraud
+T005,A001,withdrawal,340.78,2025-04-14T15:00,success
+T006,A003,deposit,1282.46,2025-04-14T16:00,success
+T007,A002,deposit,1615.26,2025-04-14T17:00,success
+T008,A001,loan_payment,426.09,2025-04-14T18:00,success
+T009,A002,loan_payment,979.7,2025-04-14T19:00,success
+T010,A003,deposit,357.61,2025-04-14T20:00,success
+T011,A002,transfer,273.76,2025-04-14T21:00,success
+T012,A003,withdrawal,1603.45,2025-04-14T22:00,success
