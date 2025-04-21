@@ -1,15 +1,20 @@
-import json
+
 from typing import List, Optional
 from app.customers.models import Customer,  Interaction
 from app.customers.repository import CustomerRepository
+from app.accounts.services import AccountService
 from app.utils.data_manager import save_json
 
 class CustomerService:
-    def __init__(self, customer_repository: CustomerRepository):
+    def __init__(self, customer_repository: CustomerRepository, account_service: AccountService):
         self.customer_repository = customer_repository
+        self.account_service = account_service
 
     def get_customer_profile(self, customer_id: str) -> Optional[Customer]:
-        return self.customer_repository.get_by_id(customer_id)
+        customer =  self.customer_repository.get_by_id(customer_id)
+        print(f"Customer Name: {customer.name}")
+        print('I am here 3=4')
+        return customer
 
     def get_all_customers(self) -> List[Customer]:
         return self.customer_repository.get_all()
@@ -80,3 +85,14 @@ class CustomerService:
             customer_data_list.append(customer_data)
 
         save_json(self.customer_repository.data_file, customer_data_list)
+
+    def get_customer_accounts(self, customer_id: str):
+        customer = self.customer_repository.get_by_id(customer_id)
+        if customer:
+            accounts = []
+            for account_id in customer.account_ids:
+                account = self.account_service.get_account_details(account_id)
+                if account:
+                    accounts.append(account)
+            return accounts
+        return []

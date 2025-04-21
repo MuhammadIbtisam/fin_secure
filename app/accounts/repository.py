@@ -1,0 +1,79 @@
+
+import os
+from typing import List, Optional
+from app.accounts.models import Account, Transaction
+from app.utils.data_manager import load_json, load_csv
+
+class AccountRepository:
+    def __init__(self, data_file='accounts.json'):
+        self.data_file = data_file
+        self.accounts = self._load_accounts()
+
+    def _load_accounts(self) -> List[Account]:
+        account_data_list = load_json(self.data_file)
+        accounts = []
+        for account_data in account_data_list:
+            account = Account(
+                account_id=account_data.get('account_id'),
+                customer_id=account_data.get('customer_id'),
+                type=account_data.get('type'),
+                balance=account_data.get('balance', 0.0)
+            )
+            accounts.append(account)
+        return accounts
+
+    def get_all(self) -> List[Account]:
+        return self.accounts
+
+    def get_by_id(self, account_id: str) -> Optional[Account]:
+        for account in self.accounts:
+            if account.account_id == account_id:
+                return account
+        return None
+
+    def get_by_customer_id(self, customer_id: str) -> List[Account]:
+        matching_accounts = [
+            account for account in self.accounts if account.customer_id == customer_id
+        ]
+        return matching_accounts
+
+class TransactionRepository:
+    def __init__(self, data_file='transactions.csv'):
+        self.data_file = data_file
+        self.transactions = self._load_transactions()
+
+    def _load_transactions(self) -> List[Transaction]:
+        transaction_data_list = load_csv(self.data_file)
+        transactions = []
+        for transaction_data in transaction_data_list:
+            transaction = Transaction(
+                transaction_id=transaction_data.get('transaction_id'),
+                account_id=transaction_data.get('account_id'),
+                type=transaction_data.get('type'),
+                amount=float(transaction_data.get('amount', 0.0)),
+                timestamp=transaction_data.get('timestamp'),
+                status=transaction_data.get('status')
+            )
+            transactions.append(transaction)
+        return transactions
+
+    def get_all(self) -> List[Transaction]:
+        return self.transactions
+
+    def get_by_account_id(self, account_id: str) -> List[Transaction]:
+        matching_transactions = [
+            transaction for transaction in self.transactions if transaction.account_id == account_id
+        ]
+        return matching_transactions
+
+    def get_by_status(self, status: str) -> List[Transaction]:
+        matching_transactions = [
+            transaction for transaction in self.transactions if transaction.status == status
+        ]
+        return matching_transactions
+
+    def get_by_type(self, type: str) -> List[Transaction]:
+        matching_transactions = [
+            transaction for transaction in self.transactions if transaction.type == type
+        ]
+        return matching_transactions
