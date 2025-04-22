@@ -29,9 +29,28 @@ class CustomersManagementWindow(tk.Toplevel):
         details_frame = ttk.LabelFrame(self, text="Customer Details")
         details_frame.pack(padx=10, pady=10, fill="x")
         self.name_label = ttk.Label(details_frame, text="Name:")
-        self.name_label.pack(pady=5, anchor="w")
+        self.name_label.pack(pady=2, anchor="w")
         self.id_label = ttk.Label(details_frame, text="ID:")
-        self.id_label.pack(pady=5, anchor="w")
+        self.id_label.pack(pady=2, anchor="w")
+        self.email_label = ttk.Label(details_frame, text="Email:")
+        self.email_label.pack(pady=2, anchor="w")
+        self.phone_label = ttk.Label(details_frame, text="Phone:")
+        self.phone_label.pack(pady=2, anchor="w")
+        self.accounts_label = ttk.Label(details_frame, text="Accounts:")
+        self.accounts_label.pack(pady=2, anchor="w")
+        self.last_interaction_label = ttk.Label(details_frame, text="Last Interaction:")
+        self.last_interaction_label.pack(pady=2, anchor="w")
+        self.total_interactions_label = ttk.Label(details_frame, text="Total Interactions:")
+        self.total_interactions_label.pack(pady=2, anchor="w")
+
+        # Interaction Log Frame
+        log_frame = ttk.LabelFrame(self, text="Interaction Log")
+        log_frame.pack(padx=10, pady=10, fill="both", expand=True)
+        self.log_text = tk.Text(log_frame, height=10, state="disabled")
+        self.log_text.pack(side="left", fill="both", expand=True)
+        log_scrollbar = ttk.Scrollbar(log_frame, command=self.log_text.yview)
+        log_scrollbar.pack(side="right", fill="y")
+        self.log_text.config(yscrollcommand=log_scrollbar.set)
 
 
     def search_customer(self):
@@ -51,10 +70,30 @@ class CustomersManagementWindow(tk.Toplevel):
             self.customer_list.delete(0, tk.END)
             self.name_label.config(text="Name:")
             self.id_label.config(text="ID:")
-
+            self.email_label.config(text="Email:")
+            self.phone_label.config(text="Phone:")
+            self.accounts_label.config(text="Accounts:")
+            self.last_interaction_label.config(text="Last Interaction:")
+            self.total_interactions_label.config(text="Total Interactions:")
+            self.log_text.config(state="normal")
+            self.log_text.delete("1.0", tk.END)
+            self.log_text.config(state="disabled")
             ttk.Label(self, text="Customer not found.", foreground="red").pack()
 
     def load_customer_details(self, event):
         if self.current_customer:
             self.name_label.config(text=f"Name: {self.current_customer.name}")
             self.id_label.config(text=f"ID: {self.current_customer.customer_id}")
+            self.email_label.config(text=f"Email: {self.current_customer.contact_info.email}")
+            self.phone_label.config(text=f"Phone: {self.current_customer.contact_info.phone}")
+            self.accounts_label.config(text=f"Accounts: {', '.join(self.current_customer.account_ids)}")
+            self.last_interaction_label.config(
+                text=f"Last Interaction: {self.current_customer.last_interaction_date or 'N/A'}")
+            self.total_interactions_label.config(text=f"Total Interactions: {self.current_customer.total_interactions}")
+
+            self.log_text.config(state="normal")
+            self.log_text.delete("1.0", tk.END)
+            for interaction in self.current_customer.interaction_log:
+                self.log_text.insert(tk.END,
+                                     f"Date: {interaction.date}, Type: {interaction.type}, Notes: {interaction.notes}\n")
+            self.log_text.config(state="disabled")

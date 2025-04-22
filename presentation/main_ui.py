@@ -11,6 +11,8 @@ from presentation.customers_management_window import CustomersManagementWindow
 from presentation.accounts_window import AccountsWindow
 from presentation.dashboard_window import DashboardWindow
 from presentation.fraud_monitoring_window import FraudMonitoringWindow
+from app.compliance.repository import ComplianceRepository
+from app.compliance.services import ComplianceService
 
 
 class MainApp(tk.Tk):
@@ -23,17 +25,21 @@ class MainApp(tk.Tk):
         customers_file_path = os.path.join(data_dir, 'customers.json')
         accounts_file_path = os.path.join(data_dir, 'accounts.json')
         transactions_file_path = os.path.join(data_dir, 'transactions.csv')
+        compliance_file_path = os.path.join(data_dir, 'regulations.json')
+
         # Instantiate repositories with just the filenames
         self.customer_repository = CustomerRepository(data_file=customers_file_path)
         self.account_repository = AccountRepository(data_file=accounts_file_path)
         self.transaction_repository = TransactionRepository(data_file=transactions_file_path)
+        self.compliance_repository = ComplianceRepository(data_file=compliance_file_path)
 
         # Instantiate services
         self.account_service = AccountService(self.account_repository, self.transaction_repository)
         self.customer_service = CustomerService(self.customer_repository, self.account_service)
         self.transaction_service = TransactionService(self.transaction_repository)
+        self.compliance_service = ComplianceService(self.compliance_repository)
         self.dashboard_stats_service = DashboardStatsService(
-            self.customer_service, self.account_service, self.transaction_service, None
+            self.customer_service, self.account_service, self.transaction_service, self.compliance_service
             # Compliance service might be needed later
         )
 
