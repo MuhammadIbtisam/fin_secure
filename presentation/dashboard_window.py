@@ -1,13 +1,16 @@
 
 import tkinter as tk
 from tkinter import ttk
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 class DashboardWindow(tk.Toplevel):
     def __init__(self, parent, dashboard_stats_service):
         super().__init__(parent)
         self.title("Staff Management Dashboard")
-        self.geometry("800x600")
+        self.geometry("1600x900")
         self.dashboard_stats_service = dashboard_stats_service
+        self.init_dashboard()
 
         # Financial Metrics Frame
         financial_frame = ttk.LabelFrame(self, text="Financial Metrics")
@@ -42,3 +45,32 @@ class DashboardWindow(tk.Toplevel):
         ttk.Label(compliance_frame, text=f"Non-Compliant Regulations: {compliance_summary['non_compliant']}").pack(pady=2, anchor="w")
         audit_logs = self.dashboard_stats_service.get_latest_audit_logs()
         ttk.Label(compliance_frame, text=f"Latest Audit Logs: {', '.join(audit_logs)}").pack(pady=2, anchor="w")
+
+    def init_dashboard(self):
+        customer_segment_data = self.dashboard_stats_service.get_customers_by_segment_counts()
+        print(f"Data from service: {customer_segment_data}")
+        if customer_segment_data:
+            fig_customers, ax_customers = plt.subplots(figsize=(6, 4))
+            segments = list(customer_segment_data.keys())
+            counts = list(customer_segment_data.values())
+            ax_customers.bar(segments, counts)
+            ax_customers.set_xlabel("Customer Segment")
+            ax_customers.set_ylabel("Number of Customers")
+            ax_customers.set_title("Customers by Segment")
+
+            canvas_customers = FigureCanvasTkAgg(fig_customers, master=self)
+            canvas_widget_customers = canvas_customers.get_tk_widget()
+            canvas_widget_customers.pack(fill=tk.BOTH, expand=True)
+
+            toolbar_customers = NavigationToolbar2Tk(canvas_customers, self)
+            toolbar_customers.update()
+            toolbar_customers.pack(fill=tk.X)
+            canvas_customers.draw()
+
+    # def init_dashboard(self):
+    #     fig, ax = plt.subplots()
+    #     ax.plot([1, 2, 3, 4], [5, 6, 7, 8])
+    #     canvas = FigureCanvasTkAgg(fig, master=self)
+    #     canvas_widget = canvas.get_tk_widget()
+    #     canvas_widget.pack(fill=tk.BOTH, expand=True)
+    #     canvas.draw()

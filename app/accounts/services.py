@@ -27,6 +27,9 @@ class AccountService:
             return balance
         return 0.0
 
+    def save_account(self, account: Account):
+        self.account_repository.update(account)
+
 class TransactionService:
     def __init__(self, transaction_repository: TransactionRepository):
         self.transaction_repository = transaction_repository
@@ -49,11 +52,14 @@ class TransactionService:
         recent_large_withdrawals = 0
 
         for i, transaction in enumerate(transactions):
-            if (transaction.status == 'flagged_fraud' or
-                    (transaction.status == 'success' and transaction.type == 'withdrawal'
-                     and transaction.amount >= withdrawal_threshold )):
+            if (transaction.status == 'success' and transaction.type == 'withdrawal'
+                     and transaction.amount >= withdrawal_threshold ):
+                        transaction.fraud_reason = "Unusually high withdrawal amount"
                         fraudulent.append(transaction)
                         recent_large_withdrawals += 1
+            elif transaction.status == 'flagged_fraud':
+                transaction.fraud_reason = "Transaction is marked as Fraud"
+                fraudulent.append(transaction)
 
         return fraudulent
 
@@ -70,4 +76,3 @@ class TransactionService:
                 alerts.append(alert)
                 print(f"Alert: {alert}")
         return alerts
-

@@ -19,7 +19,7 @@ class MainApp(tk.Tk):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title("FinSecure Application")
-        self.geometry("800x600")
+        self.geometry("900x600")
         base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         data_dir = os.path.join(base_dir, 'data')
         customers_file_path = os.path.join(data_dir, 'customers.json')
@@ -40,16 +40,17 @@ class MainApp(tk.Tk):
         self.compliance_service = ComplianceService(self.compliance_repository)
         self.dashboard_stats_service = DashboardStatsService(
             self.customer_service, self.account_service, self.transaction_service, self.compliance_service
-            # Compliance service might be needed later
         )
 
+        self.logged_in_role = None
         self.show_login()
         self.main_frame = None
 
     def show_login(self):
         self.login_window = LoginWindow(self, self.login_successful)
 
-    def login_successful(self):
+    def login_successful(self, role):
+        self.logged_in_role = role
         if self.login_window:
             self.login_window.destroy()
         self.show_main_interface()

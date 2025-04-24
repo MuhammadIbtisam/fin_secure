@@ -1,7 +1,8 @@
 import json
 from typing import List
 from app.customers.models import Customer, ContactInfo, Interaction, AccountSummaryItem
-from app.utils.data_manager import load_json
+from app.utils.data_manager import load_json, save_json
+import os
 
 class CustomerRepository:
     def __init__(self, data_file='customers.json'):
@@ -89,3 +90,41 @@ class CustomerRepository:
             customer for customer in self.customers if customer.last_interaction_date == date
         ]
         return matching_customers
+
+    def update(self, customer_to_update: Customer):
+        for i, customer in enumerate(self.customers):
+            if customer.customer_id == customer_to_update.customer_id:
+                self.customers[i] = customer_to_update
+                self._save_customers()
+                return
+
+    def _save_customers(self):
+        data_to_save = []
+        for customer in self.customers:
+            customer_data = customer.__dict__.copy()
+            customer_data['contact_info'] = customer.contact_info.__dict__
+            account_summary_data = {}
+            for account_id, summary_item in customer_data.get('account_summary', {}).items():
+                account_summary_data[account_id] = summary_item.__dict__
+            customer_data['account_summary'] = account_summary_data
+
+            interaction_log_data = []
+            for interaction in customer.interaction_log:
+                interaction_log_data.append(interaction.__dict__)
+            customer_data['interaction_log'] = interaction_log_data
+
+            data_to_save.append(customer_data)
+        save_json(self.data_file, data_to_save)
+
+    def add_customer(self, customer: Customer):
+        self.customers.append(customer)
+        self._save_customers()
+
+    def delete_customer(self, customer_id: str):
+        """Deletes a customer from the repository."""
+        initial_len = len(self.customers)
+        self.customers = [customer for customer in self.customers if customer.customer_id != customer_id]
+        if len(self.customers) < initial_len:
+            self._save_customers()
+            return True
+        return False

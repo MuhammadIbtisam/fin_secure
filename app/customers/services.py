@@ -1,6 +1,6 @@
 
 from typing import List, Optional
-from app.customers.models import Customer,  Interaction
+from app.customers.models import Customer, Interaction, ContactInfo, AccountSummaryItem
 from app.customers.repository import CustomerRepository
 from app.accounts.services import AccountService
 from app.utils.data_manager import save_json
@@ -96,3 +96,35 @@ class CustomerService:
                     accounts.append(account)
             return accounts
         return []
+
+    def save_customer_profile(self, customer: Customer):
+        self.customer_repository.update(customer)
+
+    def add_customer(self, customer_data: dict):
+        """Adds a new customer using the repository."""
+        # Create a Customer object from the dictionary
+        contact_info = ContactInfo(**customer_data.get('contact_info', {}))
+        new_customer = Customer(
+            customer_id=customer_data.get('customer_id'),
+            name=customer_data.get('name'),
+            contact_info=contact_info,
+            account_ids=customer_data.get('account_ids', []),
+            account_summary={
+                acc_id: AccountSummaryItem(**summary) for acc_id, summary in
+                customer_data.get('account_summary', {}).items()
+            },
+            products=customer_data.get('products', []),
+            interaction_log=[],  # Initialize empty
+            last_interaction_date=None,
+            total_interactions=0,
+            advice_history=[],
+            personalized_advice=[],
+            date_of_birth=customer_data.get('date_of_birth'),
+            address=customer_data.get('address'),
+            customer_segment=customer_data.get('customer_segment'),
+            consent=customer_data.get('consent')
+        )
+        self.customer_repository.add_customer(new_customer)
+
+    def delete_customer(self, customer_id: str):
+        self.customer_repository.delete_customer(customer_id)

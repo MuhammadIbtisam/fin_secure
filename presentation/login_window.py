@@ -1,5 +1,6 @@
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
+from app.auth.user_service import UserService  # Import UserService
 
 class LoginWindow(tk.Toplevel):
     def __init__(self, parent, on_login_success):
@@ -8,6 +9,7 @@ class LoginWindow(tk.Toplevel):
         self.geometry("300x150")
         self.parent = parent
         self.on_login_success = on_login_success
+        self.user_service = UserService()  # Initialize UserService
 
         self.username_label = ttk.Label(self, text="Username:")
         self.username_label.grid(row=0, column=0, padx=10, pady=10, sticky="w")
@@ -28,9 +30,9 @@ class LoginWindow(tk.Toplevel):
         username = self.username_entry.get()
         password = self.password_entry.get()
 
-        # Basic hardcoded authentication
-        if username == "staff" and password == "password":
-            self.on_login_success()
+        role = self.user_service.authenticate_user(username, password)
+        if role:
+            self.on_login_success(role)  # Pass the role back
             self.destroy()
         else:
-            ttk.Label(self, text="Login failed. Please try again.", foreground="red").grid(row=3, column=0, columnspan=2, pady=5)
+            messagebox.showerror("Login Failed", "Invalid username or password.")

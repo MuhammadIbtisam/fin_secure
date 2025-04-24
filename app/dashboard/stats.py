@@ -85,3 +85,22 @@ class DashboardStatsService:
 
     def get_latest_audit_logs(self) -> list:
         return ["Regulatory change tracked for KYC-2024", "Regulatory change tracked for AML-2025"]
+
+    def get_customers_by_segment_counts(self):
+        customers = self.customer_service.get_all_customers()
+        segment_counts = {}
+        for customer in customers:
+            segment = customer.customer_segment if customer.customer_segment is not None else "Unknown Segment"
+            segment_counts[segment] = segment_counts.get(segment, 0) + 1
+        print(f"Segment counts: {segment_counts}")
+        return segment_counts
+
+    # customers = self.customer_service.get_all_customers()
+    # segment_counts = {}
+    # for customer in customers:
+    #     segment = customer.customer_segment
+    #     if segment:
+    #         segment_counts[segment] = segment_counts.get(segment, 0) + 1
+    #
+    # print(f"Segment counts: {segment_counts}")
+    # return segment_counts

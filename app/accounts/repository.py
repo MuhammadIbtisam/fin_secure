@@ -1,8 +1,8 @@
-
 import os
+import json
 from typing import List, Optional
 from app.accounts.models import Account, Transaction
-from app.utils.data_manager import load_json, load_csv
+from app.utils.data_manager import load_json, save_json, load_csv
 
 class AccountRepository:
     def __init__(self, data_file='accounts.json'):
@@ -17,7 +17,8 @@ class AccountRepository:
                 account_id=account_data.get('account_id'),
                 customer_id=account_data.get('customer_id'),
                 type=account_data.get('type'),
-                balance=account_data.get('balance', 0.0)
+                balance=account_data.get('balance', 0.0),
+                notes=account_data.get('notes', []) # Load existing notes
             )
             accounts.append(account)
         return accounts
@@ -36,6 +37,22 @@ class AccountRepository:
             account for account in self.accounts if account.customer_id == customer_id
         ]
         return matching_accounts
+
+    def update(self, account_to_update: Account):
+        for i, account in enumerate(self.accounts):
+            if account.account_id == account_to_update.account_id:
+                self.accounts[i] = account_to_update
+                self._save_accounts()
+                return
+        # Handle case where account is not found (optional)
+
+    def _save_accounts(self):
+        data_to_save = []
+        for account in self.accounts:
+            account_data = account.__dict__.copy()
+            # Ensure notes are saved as is (they are lists of dictionaries)
+            data_to_save.append(account_data)
+        save_json(self.data_file, data_to_save)
 
 class TransactionRepository:
     def __init__(self, data_file='transactions.csv'):

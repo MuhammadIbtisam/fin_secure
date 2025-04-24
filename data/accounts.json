@@ -9,12 +9,14 @@
     "account_id": "A002",
     "customer_id": "C001",
     "type": "loan",
-    "balance": -12000.0
+    "balance": -12000.0,
+    "notes": "Loan Should be paid on time"
   },
   {
     "account_id": "A003",
     "customer_id": "C002",
     "type": "checking",
-    "balance": 300.0
+    "balance": 300.0,
+    "notes": "Contact us for more service updates"
   }
 ]
