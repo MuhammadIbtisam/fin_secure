@@ -36,7 +36,7 @@ class MainApp(tk.Tk):
         # Instantiate services
         self.account_service = AccountService(self.account_repository, self.transaction_repository)
         self.customer_service = CustomerService(self.customer_repository, self.account_service)
-        self.transaction_service = TransactionService(self.transaction_repository)
+        self.transaction_service = TransactionService(self.transaction_repository, self.account_repository)
         self.compliance_service = ComplianceService(self.compliance_repository)
         self.dashboard_stats_service = DashboardStatsService(
             self.customer_service, self.account_service, self.transaction_service, self.compliance_service

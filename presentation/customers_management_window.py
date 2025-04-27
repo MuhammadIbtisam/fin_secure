@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from datetime import datetime
 from app.customers.models import Interaction
+from presentation.customer_transaction_window import CustomerTransactionWindow
+
 
 class CustomersManagementWindow(tk.Toplevel):
     def __init__(self, parent, customer_service):
@@ -16,6 +18,7 @@ class CustomersManagementWindow(tk.Toplevel):
         self.logged_in_role = self.parent_app.logged_in_role
         self.create_widgets()
         self.apply_permissions()
+        self.load_customers() # Load customers on initialization
 
     def create_widgets(self):
         # Search Frame
@@ -39,33 +42,32 @@ class CustomersManagementWindow(tk.Toplevel):
         self.customer_list.bind('<<ListboxSelect>>', self.load_customer_details)
 
         # Details Frame
-        details_frame = ttk.LabelFrame(self, text="Customer Details")
-        details_frame.pack(padx=10, pady=10, fill="x")
-        self.name_label = ttk.Label(details_frame, text="Name:")
+        self.details_frame = ttk.LabelFrame(self, text="Customer Details") # Make self.details_frame an instance attribute
+        self.details_frame.pack(padx=10, pady=10, fill="x")
+        self.name_label = ttk.Label(self.details_frame, text="Name:")
         self.name_label.pack(pady=2, anchor="w")
-        self.id_label = ttk.Label(details_frame, text="ID:")
+        self.id_label = ttk.Label(self.details_frame, text="ID:")
         self.id_label.pack(pady=2, anchor="w")
-        self.email_label = ttk.Label(details_frame, text="Email:")
+        self.email_label = ttk.Label(self.details_frame, text="Email:")
         self.email_label.pack(pady=2, anchor="w")
-        self.phone_label = ttk.Label(details_frame, text="Phone:")
+        self.phone_label = ttk.Label(self.details_frame, text="Phone:")
         self.phone_label.pack(pady=2, anchor="w")
-        self.accounts_label = ttk.Label(details_frame, text="Accounts:")
+        self.accounts_label = ttk.Label(self.details_frame, text="Accounts:")
         self.accounts_label.pack(pady=2, anchor="w")
-        self.last_interaction_label = ttk.Label(details_frame, text="Last Interaction:")
+        self.last_interaction_label = ttk.Label(self.details_frame, text="Last Interaction:")
         self.last_interaction_label.pack(pady=2, anchor="w")
-        self.total_interactions_label = ttk.Label(details_frame, text="Total Interactions:")
+        self.total_interactions_label = ttk.Label(self.details_frame, text="Total Interactions:")
         self.total_interactions_label.pack(pady=2, anchor="w")
 
 
-        # update_button = ttk.Button(details_frame, text="Update Customer",
-        #                            command=self.update_customer)  # Replace self.update_customer with your actual method
-        # update_button.pack(pady=5)
-        # self.update_button = update_button
-
-        delete_button = ttk.Button(details_frame, text="Delete Customer",
-                                   command=self.delete_customer)  # Replace self.delete_customer with your actual method
+        delete_button = ttk.Button(self.details_frame, text="Delete Customer",
+                                   command=self.delete_customer)
         delete_button.pack(pady=5)
         self.delete_button = delete_button
+
+        self.view_transactions_button = ttk.Button(self.details_frame, text="View Transactions",
+                                                   command=self.open_customer_transactions)
+        self.view_transactions_button.pack(pady=5, fill="x")
 
         # Interaction Log Frame
         log_frame = ttk.LabelFrame(self, text="Interaction Log")
@@ -90,7 +92,6 @@ class CustomersManagementWindow(tk.Toplevel):
         add_dialog = tk.Toplevel(self)
         add_dialog.title("Add New Customer")
 
-        # Labels and Entry fields for customer details
         ttk.Label(add_dialog, text="Name:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
         name_entry = ttk.Entry(add_dialog)
         name_entry.grid(row=0, column=1, padx=5, pady=5, sticky="ew")
@@ -124,7 +125,7 @@ class CustomersManagementWindow(tk.Toplevel):
                     "email": email,
                     "phone": phone
                 },
-                "account_ids": [],  # Initialize with empty accounts
+                "account_ids": [],
                 "account_summary": {},
                 "products": [],
                 "interaction_log": [],
@@ -139,9 +140,9 @@ class CustomersManagementWindow(tk.Toplevel):
             }
 
             try:
-                self.customer_service.add_customer(new_customer_data)  # Implement this in your service
+                self.customer_service.add_customer(new_customer_data)
                 messagebox.showinfo("Success", f"Customer '{name}' (ID: {customer_id}) added successfully.")
-                self.load_customers()  # Refresh the list
+                self.load_customers()
                 add_dialog.destroy()
             except Exception as e:
                 messagebox.showerror("Error", f"Error adding customer: {e}")
@@ -150,9 +151,6 @@ class CustomersManagementWindow(tk.Toplevel):
         save_button.grid(row=4, column=0, columnspan=2, padx=5, pady=10)
 
         add_dialog.grid_columnconfigure(1, weight=1)
-
-    # def update_customer(self):
-    #     print("Update Customer functionality to be implemented")
 
 
     def delete_customer(self):
@@ -166,16 +164,16 @@ class CustomersManagementWindow(tk.Toplevel):
             messagebox.showerror("Error", "Could not retrieve customer ID for deletion.")
             return
 
-        customer_name = self.get_customer_name_from_list(selected_index[0])  # Optional: Get name for confirmation
+        customer_name = self.get_customer_name_from_list(selected_index[0])
 
         if messagebox.askyesno("Confirm Delete",
                                f"Are you sure you want to delete customer '{customer_name}' (ID: {selected_customer_id})?"):
             try:
-                self.customer_service.delete_customer(selected_customer_id)  # Implement this in your service
+                self.customer_service.delete_customer(selected_customer_id)
                 messagebox.showinfo("Success",
                                     f"Customer '{customer_name}' (ID: {selected_customer_id}) deleted successfully.")
-                self.load_customers()  # Refresh the list
-                self.clear_customer_details()  # Clear the details frame
+                self.load_customers()
+                self.clear_customer_details()
             except Exception as e:
                 messagebox.showerror("Error", f"Error deleting customer: {e}")
 
@@ -203,9 +201,10 @@ class CustomersManagementWindow(tk.Toplevel):
         self.accounts_label.config(text="Accounts:")
         self.last_interaction_label.config(text="Last Interaction:")
         self.total_interactions_label.config(text="Total Interactions:")
-        self.log_text.config(state="normal")
-        self.log_text.delete("1.0", tk.END)
-        self.log_text.config(state="disabled")
+        if hasattr(self, 'log_text'): # Check if log_text exists before trying to configure it
+            self.log_text.config(state="normal")
+            self.log_text.delete("1.0", tk.END)
+            self.log_text.config(state="disabled")
 
     def apply_permissions(self):
         if self.logged_in_role == "Customer Service Agent":
@@ -213,25 +212,20 @@ class CustomersManagementWindow(tk.Toplevel):
                 self.search_button.config(state="normal")
             if hasattr(self, 'add_note_button'):
                 self.add_note_button.config(state="normal")
-            if hasattr(self, 'update_button'):
-                self.update_button.config(state="disabled")
-            if hasattr(self, 'add_new_button'):
-                self.add_new_button.config(state="disabled")
             if hasattr(self, 'delete_button'):
                 self.delete_button.config(state="disabled")
+            if hasattr(self, 'add_new_button'):
+                self.add_new_button.config(state="disabled")
         elif self.logged_in_role == "Senior Customer Service Agent":
             if hasattr(self, 'search_button'):
                 self.search_button.config(state="normal")
             if hasattr(self, 'add_note_button'):
                 self.add_note_button.config(state="normal")
-            if hasattr(self, 'update_button'):
-                self.update_button.config(state="normal")
-            if hasattr(self, 'add_new_button'):
-                self.add_new_button.config(state="normal")
             if hasattr(self, 'delete_button'):
                 self.delete_button.config(state="disabled")
+            if hasattr(self, 'add_new_button'):
+                self.add_new_button.config(state="normal")
         elif self.logged_in_role == "Administrator":
-            # Enable all functionalities
             for widget in self.winfo_children():
                 if isinstance(widget, ttk.Button):
                     widget.config(state="normal")
@@ -283,18 +277,6 @@ class CustomersManagementWindow(tk.Toplevel):
         else:
             self.clear_customer_details()
 
-    def clear_customer_details(self):
-        self.name_label.config(text="Name:")
-        self.id_label.config(text="ID:")
-        self.email_label.config(text="Email:")
-        self.phone_label.config(text="Phone:")
-        self.accounts_label.config(text="Accounts:")
-        self.last_interaction_label.config(text="Last Interaction:")
-        self.total_interactions_label.config(text="Total Interactions:")
-        self.log_text.config(state="normal")
-        self.log_text.delete("1.0", tk.END)
-        self.log_text.config(state="disabled")
-
     def add_interaction(self):
         if self.current_customer and self.logged_in_role in ["Customer Service Agent", "Administrator"]:
             note = self.new_note_text.get("1.0", tk.END).strip()
@@ -336,3 +318,13 @@ class CustomersManagementWindow(tk.Toplevel):
         customers = self.customer_service.get_all_customers()
         for customer in customers:
             self.customer_list.insert(tk.END, f"{customer.name} (ID: {customer.customer_id})")
+
+    def open_customer_transactions(self):
+        selected_index = self.customer_list.curselection()
+        if selected_index:
+            customer_text = self.customer_list.get(selected_index[0])
+            customer_id = self.get_customer_id_from_list(selected_index[0])
+            if customer_id:
+                customer_transaction_window = CustomerTransactionWindow(self, customer_id)
+        else:
+            messagebox.showinfo("Info", "Please select a customer to view transactions.")

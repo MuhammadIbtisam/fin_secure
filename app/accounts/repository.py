@@ -1,17 +1,25 @@
 import os
 import json
+import uuid
 from typing import List, Optional
 from app.accounts.models import Account, Transaction
-from app.utils.data_manager import load_json, save_json, load_csv
+from app.utils.data_manager import load_json, save_json, load_csv, save_csv
 
 class AccountRepository:
     def __init__(self, data_file='accounts.json'):
         self.data_file = data_file
+        # self.accounts = self._load_accounts()
+        print(f"AccountRepository initialized with data_file: {self.data_file}")  # ADD THIS LINE
         self.accounts = self._load_accounts()
+        print(f"AccountRepository loaded accounts: {self.accounts}")
 
     def _load_accounts(self) -> List[Account]:
+        print(f"AccountRepository: _load_accounts() called. Attempting to load from: {self.data_file}")  # ADD THIS LINE
         account_data_list = load_json(self.data_file)
+        print(f"AccountRepository: _load_accounts() - Data loaded from JSON: {account_data_list}")  # ADD THIS LINE
         accounts = []
+        # account_data_list = load_json(self.data_file)
+        # accounts = []
         for account_data in account_data_list:
             account = Account(
                 account_id=account_data.get('account_id'),
@@ -94,3 +102,21 @@ class TransactionRepository:
             transaction for transaction in self.transactions if transaction.type == type
         ]
         return matching_transactions
+
+    def generate_unique_id(self):
+        return str(uuid.uuid4())
+
+    def add_transaction(self, transaction: Transaction):
+        self.transactions.append(transaction)
+        self._save_transactions()
+
+    def _save_transactions(self):
+        data_to_save = []
+        for transaction in self.transactions:
+            data_to_save.append(transaction.__dict__.copy())
+
+        if data_to_save:
+            fieldnames = data_to_save[0].keys()
+            save_csv(self.data_file, data_to_save, fieldnames=fieldnames)
+        else:
+            save_csv(self.data_file, [], fieldnames=[])

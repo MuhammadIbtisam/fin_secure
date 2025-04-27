@@ -11,7 +11,7 @@ def main():
 
     account_service = AccountService(account_repository, transaction_repository)
     customer_service = CustomerService(customer_repository, account_service)
-    transaction_service = TransactionService(transaction_repository)
+    transaction_service = TransactionService(transaction_repository, account_repository)
 
     print('I am here 1')
     customer = customer_service.get_customer_profile("C001")
