@@ -32,6 +32,9 @@ class AccountService:
     def save_account(self, account: Account):
         self.account_repository.update(account)
 
+    def add_account(self, account: Account):
+        self.account_repository._add_accounts(account)
+
 class TransactionService:
     FRAUD_THRESHOLD = 5000.00
     def __init__(self, transaction_repository: TransactionRepository, account_repository: AccountRepository):

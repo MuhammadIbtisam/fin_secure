@@ -3,7 +3,7 @@ from datetime import datetime
 from typing import List
 
 class Account:
-    def __init__(self, account_id: str, customer_id: str, type: str, balance: float = 0.0, notes: List[dict] = None):
+    def __init__(self, account_id: str, customer_id: str, type: str, balance: float = 0.0, notes: str = None):
         self.account_id = account_id
         self.customer_id = customer_id
         self.type = type

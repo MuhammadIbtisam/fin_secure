@@ -127,7 +127,7 @@ class AccountsWindow(tk.Toplevel):
                 self.transaction_list.delete(item)
             for transaction in transactions:
                 self.transaction_list.insert("", tk.END, values=(transaction.transaction_id, transaction.type, transaction.amount, transaction.timestamp, transaction.status))
-            self.update_account_details() # Ensure details are updated on selection
+            self.update_account_details()
         else:
             for item in self.transaction_list.get_children():
                 self.transaction_list.delete(item)

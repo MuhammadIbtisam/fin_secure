@@ -1,7 +1,8 @@
 [
   {
     "customer_id": "C001",
-    "name": "Alice Smith",
+    "password": "$2b$12$So9uvP3xeYjB9x/85tYHwe6krnfvdYbwu8p46kk0hBZDeeWoHWphG",
+    "name": "alice",
     "contact_info": {
       "email": "alice@example.com",
       "phone": "1234567890"
@@ -34,6 +35,36 @@
         "date": "2025-04-05",
         "type": "email",
         "notes": "Sent loan options"
+      },
+      {
+        "date": "2025-04-23 18:08:34",
+        "type": "Note",
+        "notes": "ibi"
+      },
+      {
+        "date": "2025-04-23 22:55:18",
+        "type": "Note",
+        "notes": "asd"
+      },
+      {
+        "date": "2025-04-24 21:57:47",
+        "type": "Note",
+        "notes": "wqe"
+      },
+      {
+        "date": "2025-04-25 15:45:29",
+        "type": "Note",
+        "notes": "ibi"
+      },
+      {
+        "date": "2025-04-28 21:06:11",
+        "type": "Note",
+        "notes": "Nabeel"
+      },
+      {
+        "date": "2025-04-30 14:16:59",
+        "type": "Note",
+        "notes": "husss"
       }
     ],
     "last_interaction_date": "2025-04-05",
@@ -46,11 +77,16 @@
       "Consider long-term fixed deposit",
       "Review loan repayment options",
       "Pre-approve personal loan"
-    ]
+    ],
+    "date_of_birth": null,
+    "address": null,
+    "customer_segment": null,
+    "consent": null
   },
   {
     "customer_id": "C002",
-    "name": "Bob Johnson",
+    "password": "$2b$12$So9uvP3xeYjB9x/85tYHwe6krnfvdYbwu8p46kk0hBZDeeWoHWphG",
+    "name": "bob",
     "contact_info": {
       "email": "bob@example.com",
       "phone": "9876543210"
@@ -67,7 +103,13 @@
     "products": [
       "Checking Account"
     ],
-    "interaction_log": [],
+    "interaction_log": [
+      {
+        "date": "2025-04-30 14:21:05",
+        "type": "Note",
+        "notes": "abcd"
+      }
+    ],
     "last_interaction_date": null,
     "total_interactions": 0,
     "advice_history": [
@@ -75,6 +117,10 @@
     ],
     "personalized_advice": [
       "Schedule follow-up call to re-engage customer"
-    ]
+    ],
+    "date_of_birth": null,
+    "address": null,
+    "customer_segment": null,
+    "consent": null
   }
 ]

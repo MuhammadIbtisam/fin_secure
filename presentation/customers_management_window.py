@@ -30,9 +30,9 @@ class CustomersManagementWindow(tk.Toplevel):
         search_button.pack(side="left", padx=5)
         self.search_button = search_button
 
-        add_new_button = ttk.Button(search_frame, text="Add New Customer", command=self.add_new_customer)
-        add_new_button.pack(side="right", padx=5)
-        self.add_new_button = add_new_button
+        # add_new_button = ttk.Button(search_frame, text="Add New Customer", command=self.add_new_customer)
+        # add_new_button.pack(side="right", padx=5)
+        # self.add_new_button = add_new_button
 
         # Customer List Frame
         list_frame = ttk.LabelFrame(self, text="Customer List")

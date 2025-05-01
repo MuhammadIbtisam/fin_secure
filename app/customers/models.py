@@ -26,11 +26,13 @@ class Customer:
                  products: List[str], interaction_log: List[Interaction],
                  last_interaction_date: Optional[str], total_interactions: int,
                  advice_history: List[str], personalized_advice: List[str],
+                 password: str,
                  date_of_birth: Optional[str] = None,
                  address: Optional[str] = None,
                  customer_segment: Optional[str] = None,
                  consent: Optional[Dict[str, bool]] = None):
         self.customer_id = customer_id
+        self.password = password
         self.name = name
         self.contact_info = contact_info
         self.account_ids = account_ids

@@ -41,6 +41,7 @@ class CustomerRepository:
             customer = Customer(
                 customer_id=customer_data.get('customer_id'),
                 name=customer_data.get('name'),
+                password=customer_data.get('password'),
                 contact_info=contact_info,
                 account_ids=customer_data.get('account_ids', []),
                 account_summary=account_summary,
@@ -64,6 +65,12 @@ class CustomerRepository:
     def get_by_id(self, customer_id: str):
         for customer in self.customers:
             if customer.customer_id == customer_id:
+                return customer
+        return None
+
+    def get_by_name(self, name: str):
+        for customer in self.customers:
+            if customer.name == name:
                 return customer
         return None
 

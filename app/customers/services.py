@@ -1,4 +1,4 @@
-
+from tkinter import messagebox
 from typing import List, Optional
 from app.customers.models import Customer, Interaction, ContactInfo, AccountSummaryItem
 from app.customers.repository import CustomerRepository
@@ -128,3 +128,19 @@ class CustomerService:
 
     def delete_customer(self, customer_id: str):
         self.customer_repository.delete_customer(customer_id)
+
+    def authenticate_customer(self, customer_name: str, password: str) -> Optional[Customer]:
+        """Authenticates a customer by ID and password."""
+        try:
+            customer = self.customer_repository.get_by_name(customer_name)
+            if customer and customer.password == password:
+                return customer
+            return None
+        except Exception as e:
+            messagebox.showerror("Error", f"Error logging in customer: {e}")
+
+    def is_name_unique(self, name: str) -> bool:
+        for customer in self.customer_repository.get_all():
+            if customer.name.lower() == name.lower():
+                return False
+        return True

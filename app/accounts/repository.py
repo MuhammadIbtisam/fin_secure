@@ -9,14 +9,13 @@ class AccountRepository:
     def __init__(self, data_file='accounts.json'):
         self.data_file = data_file
         # self.accounts = self._load_accounts()
-        print(f"AccountRepository initialized with data_file: {self.data_file}")  # ADD THIS LINE
         self.accounts = self._load_accounts()
         print(f"AccountRepository loaded accounts: {self.accounts}")
 
     def _load_accounts(self) -> List[Account]:
-        print(f"AccountRepository: _load_accounts() called. Attempting to load from: {self.data_file}")  # ADD THIS LINE
+        print(f"AccountRepository: _load_accounts() called. Attempting to load from: {self.data_file}")
         account_data_list = load_json(self.data_file)
-        print(f"AccountRepository: _load_accounts() - Data loaded from JSON: {account_data_list}")  # ADD THIS LINE
+        print(f"AccountRepository: _load_accounts() - Data loaded from JSON: {account_data_list}")
         accounts = []
         # account_data_list = load_json(self.data_file)
         # accounts = []
@@ -26,7 +25,7 @@ class AccountRepository:
                 customer_id=account_data.get('customer_id'),
                 type=account_data.get('type'),
                 balance=account_data.get('balance', 0.0),
-                notes=account_data.get('notes', []) # Load existing notes
+                notes=account_data.get('notes', [])
             )
             accounts.append(account)
         return accounts
@@ -61,6 +60,12 @@ class AccountRepository:
             # Ensure notes are saved as is (they are lists of dictionaries)
             data_to_save.append(account_data)
         save_json(self.data_file, data_to_save)
+
+
+    def _add_accounts(self, account: Account):
+        self.accounts.append(account)
+        self._save_accounts()
+
 
 class TransactionRepository:
     def __init__(self, data_file='transactions.csv'):
