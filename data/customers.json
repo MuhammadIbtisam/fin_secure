@@ -1,126 +1,149 @@
 [
-  {
-    "customer_id": "C001",
-    "password": "$2b$12$So9uvP3xeYjB9x/85tYHwe6krnfvdYbwu8p46kk0hBZDeeWoHWphG",
-    "name": "alice",
-    "contact_info": {
-      "email": "alice@example.com",
-      "phone": "1234567890"
+    {
+        "customer_id": "C001",
+        "password": "password",
+        "name": "alice",
+        "contact_info": {
+            "email": "alice@example.com",
+            "phone": "1234567890"
+        },
+        "account_ids": [
+            "A001",
+            "A002"
+        ],
+        "account_summary": {
+            "A001": {
+                "type": "savings",
+                "balance": 1585.31
+            },
+            "A002": {
+                "type": "loan",
+                "balance": 2892.72
+            }
+        },
+        "products": [
+            "Savings Account",
+            "Personal Loan"
+        ],
+        "interaction_log": [
+            {
+                "date": "2025-04-01",
+                "type": "call",
+                "notes": "Discussed savings options"
+            },
+            {
+                "date": "2025-04-05",
+                "type": "email",
+                "notes": "Sent loan options"
+            },
+            {
+                "date": "2025-04-23 18:08:34",
+                "type": "Note",
+                "notes": "ibi"
+            },
+            {
+                "date": "2025-04-23 22:55:18",
+                "type": "Note",
+                "notes": "asd"
+            },
+            {
+                "date": "2025-04-24 21:57:47",
+                "type": "Note",
+                "notes": "wqe"
+            },
+            {
+                "date": "2025-04-25 15:45:29",
+                "type": "Note",
+                "notes": "ibi"
+            },
+            {
+                "date": "2025-04-28 21:06:11",
+                "type": "Note",
+                "notes": "Nabeel"
+            },
+            {
+                "date": "2025-04-30 14:16:59",
+                "type": "Note",
+                "notes": "husss"
+            }
+        ],
+        "last_interaction_date": "2025-04-05",
+        "total_interactions": 2,
+        "advice_history": [
+            "Consider long-term fixed deposit",
+            "Eligible for personal loan"
+        ],
+        "personalized_advice": [
+            "Consider long-term fixed deposit",
+            "Review loan repayment options",
+            "Pre-approve personal loan"
+        ],
+        "date_of_birth": null,
+        "address": null,
+        "customer_segment": null,
+        "consent": null
     },
-    "account_ids": [
-      "A001",
-      "A002"
-    ],
-    "account_summary": {
-      "A001": {
-        "type": "savings",
-        "balance": 1585.31
-      },
-      "A002": {
-        "type": "loan",
-        "balance": 2892.72
-      }
+    {
+        "customer_id": "C002",
+        "password": "password",
+        "name": "bob",
+        "contact_info": {
+            "email": "bob@example.com",
+            "phone": "9876543210"
+        },
+        "account_ids": [
+            "A003"
+        ],
+        "account_summary": {
+            "A003": {
+                "type": "checking",
+                "balance": 36.62
+            }
+        },
+        "products": [
+            "Checking Account"
+        ],
+        "interaction_log": [
+            {
+                "date": "2025-04-30 14:21:05",
+                "type": "Note",
+                "notes": "abcd"
+            }
+        ],
+        "last_interaction_date": null,
+        "total_interactions": 0,
+        "advice_history": [
+            "Monitor credit card usage"
+        ],
+        "personalized_advice": [
+            "Schedule follow-up call to re-engage customer"
+        ],
+        "date_of_birth": null,
+        "address": null,
+        "customer_segment": null,
+        "consent": null
     },
-    "products": [
-      "Savings Account",
-      "Personal Loan"
-    ],
-    "interaction_log": [
-      {
-        "date": "2025-04-01",
-        "type": "call",
-        "notes": "Discussed savings options"
-      },
-      {
-        "date": "2025-04-05",
-        "type": "email",
-        "notes": "Sent loan options"
-      },
-      {
-        "date": "2025-04-23 18:08:34",
-        "type": "Note",
-        "notes": "ibi"
-      },
-      {
-        "date": "2025-04-23 22:55:18",
-        "type": "Note",
-        "notes": "asd"
-      },
-      {
-        "date": "2025-04-24 21:57:47",
-        "type": "Note",
-        "notes": "wqe"
-      },
-      {
-        "date": "2025-04-25 15:45:29",
-        "type": "Note",
-        "notes": "ibi"
-      },
-      {
-        "date": "2025-04-28 21:06:11",
-        "type": "Note",
-        "notes": "Nabeel"
-      },
-      {
-        "date": "2025-04-30 14:16:59",
-        "type": "Note",
-        "notes": "husss"
-      }
-    ],
-    "last_interaction_date": "2025-04-05",
-    "total_interactions": 2,
-    "advice_history": [
-      "Consider long-term fixed deposit",
-      "Eligible for personal loan"
-    ],
-    "personalized_advice": [
-      "Consider long-term fixed deposit",
-      "Review loan repayment options",
-      "Pre-approve personal loan"
-    ],
-    "date_of_birth": null,
-    "address": null,
-    "customer_segment": null,
-    "consent": null
-  },
-  {
-    "customer_id": "C002",
-    "password": "$2b$12$So9uvP3xeYjB9x/85tYHwe6krnfvdYbwu8p46kk0hBZDeeWoHWphG",
-    "name": "bob",
-    "contact_info": {
-      "email": "bob@example.com",
-      "phone": "9876543210"
-    },
-    "account_ids": [
-      "A003"
-    ],
-    "account_summary": {
-      "A003": {
-        "type": "checking",
-        "balance": 36.62
-      }
-    },
-    "products": [
-      "Checking Account"
-    ],
-    "interaction_log": [
-      {
-        "date": "2025-04-30 14:21:05",
-        "type": "Note",
-        "notes": "abcd"
-      }
-    ],
-    "last_interaction_date": null,
-    "total_interactions": 0,
-    "advice_history": [
-      "Monitor credit card usage"
-    ],
-    "personalized_advice": [
-      "Schedule follow-up call to re-engage customer"
-    ],
-    "date_of_birth": null,
-    "address": null,
-    "customer_segment": null,
-    "consent": null
-  }
+    {
+        "customer_id": "2d8c",
+        "password": "password",
+        "name": "test",
+        "contact_info": {
+            "email": "test@example.com",
+            "phone": "07424698856"
+        },
+        "account_ids": [
+            "dd0ab66b"
+        ],
+        "account_summary": {},
+        "products": [],
+        "interaction_log": [],
+        "last_interaction_date": null,
+        "total_interactions": 0,
+        "advice_history": [],
+        "personalized_advice": [],
+        "date_of_birth": null,
+        "address": null,
+        "customer_segment": null,
+        "consent": null
+    }
 ]

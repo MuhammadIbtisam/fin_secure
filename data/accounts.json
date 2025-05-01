@@ -1,22 +1,37 @@
 [
-  {
-    "account_id": "A001",
-    "customer_id": "C001",
-    "type": "savings",
-    "balance": 5500.0
-  },
-  {
-    "account_id": "A002",
-    "customer_id": "C001",
-    "type": "loan",
-    "balance": -12000.0,
-    "notes": "Loan Should be paid on time"
-  },
-  {
-    "account_id": "A003",
-    "customer_id": "C002",
-    "type": "checking",
-    "balance": 300.0,
-    "notes": "Contact us for more service updates"
-  }
+    {
+        "account_id": "A001",
+        "customer_id": "C001",
+        "type": "savings",
+        "balance": 5810.0,
+        "notes": []
+    },
+    {
+        "account_id": "A002",
+        "customer_id": "C001",
+        "type": "loan",
+        "balance": -12000.0,
+        "notes": "Loan Should be paid on time"
+    },
+    {
+        "account_id": "A003",
+        "customer_id": "C002",
+        "type": "checking",
+        "balance": 350.0,
+        "notes": "Contact us for more service updates"
+    },
+    {
+        "account_id": "eb7b51b8",
+        "customer_id": "1a00",
+        "type": "Customer",
+        "balance": 10.0,
+        "notes": "default account"
+    },
+    {
+        "account_id": "dd0ab66b",
+        "customer_id": "2d8c",
+        "type": "Customer",
+        "balance": 0,
+        "notes": "default account"
+    }
 ]

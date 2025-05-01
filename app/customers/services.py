@@ -107,6 +107,7 @@ class CustomerService:
         new_customer = Customer(
             customer_id=customer_data.get('customer_id'),
             name=customer_data.get('name'),
+            password= customer_data.get('password'),
             contact_info=contact_info,
             account_ids=customer_data.get('account_ids', []),
             account_summary={
