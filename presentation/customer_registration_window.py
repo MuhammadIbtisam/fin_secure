@@ -101,10 +101,9 @@ class CustomerRegistrationWindow(tk.Toplevel):
             try:
                 self.customer_service.add_customer(new_customer)
                 self.account_service.add_account(create_account)
-
-                messagebox.showinfo("Registration Successful", f"Registration successful! Your Customer ID is: {customer_id}")
                 self.destroy()
-                self.parent.deiconify() # Show the main login window again
+                messagebox.showinfo("Registration Successful", f"Registration successful! Your Customer ID is: {customer_id}")
+                # self.parent.deiconify() # Show the main login window again
             except Exception as e:
                 messagebox.showerror("Error", f"Error adding customer: {e}")
         else:
