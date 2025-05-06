@@ -44,4 +44,4 @@ class CustomerLoginWindow(tk.Toplevel):
 
     def open_registration_window(self):
         CustomerRegistrationWindow(self.parent, self.customer_service, self.account_service)
-        self.withdraw()
+        # self.withdraw()
