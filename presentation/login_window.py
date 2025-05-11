@@ -1,6 +1,11 @@
 import os
+import sys
 import tkinter as tk
 from tkinter import ttk, messagebox
+
+project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if project_root not in sys.path:
+    sys.path.append(project_root)
 from app.auth.user_service import UserService
 from app.customers.repository import CustomerRepository
 from presentation.customer_login_window import CustomerLoginWindow
